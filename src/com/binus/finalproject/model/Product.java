@@ -11,11 +11,15 @@ public class Product {
 
     // Product constructor
     public Product(String name, String category, float price, int qty) {
-        this.id = UUID.randomUUID();
-        this.name = name;
-        this.category = category;
-        this.price = price;
-        this.qty = qty;
+        this.setId(UUID.randomUUID());
+        this.setName(name);
+        this.setCategory(category);
+        this.setPrice(price);
+        this.setQty(qty);
+    }
+
+    public Product() {
+
     }
 
     public UUID getId() {
