@@ -1,6 +1,7 @@
 package com.binus.finalproject.page;
 
 import com.binus.finalproject.model.Product;
+import com.binus.finalproject.model.Products;
 import com.binus.finalproject.service.ProductService;
 
 import java.util.Arrays;
@@ -9,19 +10,20 @@ import java.util.Scanner;
 
 public class ProductPage implements BasePage {
     ProductService productService = new ProductService();
+
     @Override
-    public void display() {
+    public void display(){}
+
+    public void display(Products products) {
         displayBorder("-");
         System.out.println("|\t\t\t\t\t\t\t\t\t\t\tKATALOG PRODUK\t\t\t\t\t\t\t\t\t\t\t\t|");
         displayBorder("-");
-        productService.initProduct();
-        List<Product> products = productService.getProducts();
 
         displayBorder("-");
         System.out.println("|\tNO" + "\t|\t\t\t\t" + "NAMA BARANG" + "\t\t\t\t|\t\t" + "KATEGORI" + "\t\t|\t\t" + "HARGA" + "\t\t|\t" + "STOK"+ "\t|");
         displayBorder("-");
         int i = 0;
-        for (Product product : products) {
+        for (Product product : products.getProducts()) {
             i++;
             System.out.println("" +
                     "|"
@@ -30,6 +32,36 @@ public class ProductPage implements BasePage {
                     + calculateSpaceDisplay(product.getCategory(), 17) + "|" + "\tRp " + formatCurrency(product.getPrice() + "")
                     + calculateSpaceDisplay(product.getPrice() + "", 14) + "|" + "\t" + product.getQty()
                     + calculateSpaceDisplay(product.getQty() + "", 10)  + "|");
+            displayBorder("-");
+        }
+    }
+
+    public void displaySearchProductByName(Products products) {
+        displayBorder("-");
+        System.out.println("|\t\t\t\t\t\t\t\t\tCARI PRODUK BERDASARKAN NAMA\t\t\t\t\t\t\t\t\t\t|");
+        displayBorder("-");
+        System.out.print("Masukkan nama produk untuk dicari\t: ");
+        Scanner input = new Scanner(System.in);
+        String productName = input.next();
+        List<Product> productList = productService.getProductByName(products, productName);
+        if(productList.size() != 0){
+            displayBorder("-");
+            System.out.println("|\tNO" + "\t|\t\t\t\t" + "NAMA BARANG" + "\t\t\t\t|\t\t" + "KATEGORI" + "\t\t|\t\t" + "HARGA" + "\t\t|\t" + "STOK"+ "\t|");
+            displayBorder("-");
+            int i = 0;
+            for (Product product : productList) {
+                i++;
+                System.out.println("" +
+                        "|"
+                        + "\t" + i + "\t|\t\t" + product.getName()
+                        + calculateSpaceDisplay(product.getName(), 33) + "|" + "\t\t" + product.getCategory()
+                        + calculateSpaceDisplay(product.getCategory(), 17) + "|" + "\tRp " + formatCurrency(product.getPrice() + "")
+                        + calculateSpaceDisplay(product.getPrice() + "", 14) + "|" + "\t" + product.getQty()
+                        + calculateSpaceDisplay(product.getQty() + "", 10)  + "|");
+                displayBorder("-");
+            }
+        } else {
+            System.out.println("|\t\t\t\t\t\t\t\t\tProduk yang anda cari tidak ditemukan" + "\t\t\t\t\t\t\t\t\t\t|");
             displayBorder("-");
         }
     }
@@ -62,7 +94,6 @@ public class ProductPage implements BasePage {
         return tabPrinted;
     }
 
-
     public void displayContinuousMenuProduct() {
         displayBorder("-");
         System.out.println("|\t\t\t\t\t\t\t\t\t\tMENU KATALOG PRODUK\t\t\t\t\t\t\t\t\t\t\t\t|");
@@ -84,7 +115,7 @@ public class ProductPage implements BasePage {
         Scanner input = new Scanner(System.in);
         System.out.print("Pilih salah satu menu katalog produk\t\t\t:\t");
         int selectedMenu = input.nextInt();
-
+        MenuPage menuPage = new MenuPage();
         ProductDetailPage productDetailPage = new ProductDetailPage();
         switch (selectedMenu){
             case 1 : {
@@ -99,6 +130,8 @@ public class ProductPage implements BasePage {
                 productDetailPage.getInputMenuUser();
                 break;
             }
+            case 4 :
+                menuPage.display(); break;
         }
     }
 }

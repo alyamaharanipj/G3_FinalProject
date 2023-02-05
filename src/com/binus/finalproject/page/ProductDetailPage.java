@@ -92,6 +92,11 @@ public class ProductDetailPage implements BasePage {
                 cartService.addToCart(cartItem);
                 Cart cart = cartService.getCart();
                 cartPage.displayDetailCart(cart);
+                System.out.print("Tekan ENTER untuk melihat menu di detail produk");
+                input.nextLine();
+                input.nextLine();
+                cartPage.displayContinuousMenuProductDetail();
+                cartPage.getInputMenuUser();
                 break;
             }
         }

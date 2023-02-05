@@ -1,7 +1,9 @@
 package com.binus.finalproject.service;
 import com.binus.finalproject.model.Product;
+import com.binus.finalproject.model.Products;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class ProductService {
@@ -10,15 +12,9 @@ public class ProductService {
     final int MAX_QTY = 50;
     final int MIN_QTY = 12;
 
-    private List<Product> products = new ArrayList<>();
-    public List<Product> getProducts() {
-        return products;
-    }
-    public void setProducts(List<Product> products) {
+    Products products = new Products();
+    public void initProduct(Products products) {
         this.products = products;
-    }
-
-    public void initProduct() {
         // List product
         List<String> productsName = Arrays.asList(
             "Lampu Sepeda LED Light",
@@ -49,7 +45,7 @@ public class ProductService {
             float generatedPrice = getPrice();
             int generatedQty = getQty();
             Product product = new Product(productName, productsCategory.get(i), generatedPrice, generatedQty);
-            getProducts().add(product);
+            products.getProducts().add(product);
             i++;
         }
     }
@@ -63,6 +59,10 @@ public class ProductService {
     }
 
     public Product getProductById(int i) {
-        return products.get(i - 1);
+        return products.getProducts().get(i - 1);
+    }
+
+    public List<Product> getProductByName(Products productList, String name) {
+        return productList.getProducts().stream().filter(product -> product.getName().contains(name)).collect(Collectors.toList());
     }
 }

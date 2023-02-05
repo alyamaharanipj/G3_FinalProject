@@ -8,7 +8,7 @@ public class Billing {
     private UUID id;
     private Cart cart;
     private Customer customer;
-    private int totalPayment;
+    private double totalPayment;
     private UUID virtualAccount;
 
     public Billing(Cart cart, Customer customer) {
@@ -46,11 +46,11 @@ public class Billing {
         this.customer = customer;
     }
 
-    public int getTotalPayment() {
+    public double getTotalPayment() {
         return totalPayment;
     }
 
-    public void setTotalPayment(int totalPayment) {
+    public void setTotalPayment(double totalPayment) {
         this.totalPayment = totalPayment;
     }
 

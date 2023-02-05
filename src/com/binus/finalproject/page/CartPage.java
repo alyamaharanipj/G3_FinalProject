@@ -22,22 +22,25 @@ public class CartPage implements BasePage {
         System.out.println("|\t\t\t\t\t\t\t\t\t\tDETAIL KERANJANG" + "\t\t\t\t\t\t\t\t\t\t\t\t|");
         displayBorder("-");
         displayBorder("-");
-        System.out.println("|\tNO" + "\t|\t\t" + "NAMA BARANG" + "\t\t|\t\t" + "HARGA" + "\t\t|\t\t" + "KUANTITAS" + "\t\t\t|\t\t" + "SUBTOTAL"+ "\t\t|");
+        if (cart.getCartItems().size() == 0){
+            System.out.println("|\t\t\t\t\t\t\t\t\tBelum ada barang di keranjang" + "\t\t\t\t\t\t\t\t\t\t|");
+            displayBorder("-");
+        } else {
 
-        displayBorder("-");
-        int i = 0;
-        for (CartItem cartItem : cart.getCartItems()) {
-            i++;
-            System.out.println(
-                    "|" + "\t" + i + "\t|\t\t" + cartItem.getProduct().getName()
-                    + calculateSpaceDisplay(cartItem.getProduct().getName(), 33) + "|" + "\tRp " + formatCurrency(cartItem.getProduct().getPrice() + "")
-                    + calculateSpaceDisplay(cartItem.getProduct().getPrice() + "", 17) + "|" + "\t" + cartItem.getProduct().getQty()
-                    + calculateSpaceDisplay(cartItem.getQty() + "", 10)
-                    + calculateSpaceDisplay(cartItem.getQty() *  + cartItem.getProduct().getPrice() + "", 17));
-            System.out.println("----------------------------------------------------------------------------------------------------------");
+            System.out.println("|\tNO" + "\t|\t\t\t" + "NAMA BARANG" + "\t\t\t\t|\t\t" + "HARGA" + "\t\t|\t" + "KUANTITAS" + "\t|\t\t" + "SUBTOTAL" + "\t\t|");
+            displayBorder("-");
+            int i = 0;
+            for (CartItem cartItem : cart.getCartItems()) {
+                i++;
+                System.out.println(
+                        "|" + "\t" + i + "\t|\t\t" + cartItem.getProduct().getName()
+                                + calculateSpaceDisplay(cartItem.getProduct().getName(), 29) + "|" + "\tRp " + formatCurrency(cartItem.getProduct().getPrice() + "")
+                                + calculateSpaceDisplay(formatCurrency(cartItem.getProduct().getPrice() + ""), 14) + "|" + "\t" + cartItem.getQty()
+                                + calculateSpaceDisplay(cartItem.getQty() + "", 14) + "|\tRp " + formatCurrency(cartItem.getQty() * +cartItem.getProduct().getPrice() + "")
+                                + calculateSpaceDisplay(formatCurrency(cartItem.getQty() * +cartItem.getProduct().getPrice() + ""), 17) + "|");
+                displayBorder("-");
+            }
         }
-        displayContinuousMenuProductDetail();
-        getInputMenuUser();
     }
     private String formatCurrency(String original) {
         String afterFormatting = "";
@@ -72,20 +75,24 @@ public class CartPage implements BasePage {
     } */
 
     public void displayContinuousMenuProductDetail() {
-        System.out.println("\nMENU KERANJANG ");
+        displayBorder("-");
+        System.out.println("|\t\t\t\t\t\t\t\t\t\t\tMENU KERANJANG\t\t\t\t\t\t\t\t\t\t\t\t|");
+        displayBorder("-");
         List<String> menus = Arrays.asList(
-                "Bayar Sekarang",
+                "Pesan Sekarang",
                 "Kembali"
         );
 
         for (int i = 0; i < menus.size(); i++) {
-            System.out.println((i + 1) + ". " + menus.get(i));
+            if (cart.getCartItems().size() == 0) i++;
+            System.out.println("|\t" + (i + 1) + "\t|\t" + menus.get(i) + displaySideBorder(menus.get(i)) + "|");
+            displayBorder("-");
         }
     }
 
     public void getInputMenuUser () {
         Scanner input = new Scanner(System.in);
-        System.out.print("\nPilih salah satu menu detail produk : ");
+        System.out.print("Pilih salah satu menu di keranjang : ");
         int selectedMenu = input.nextInt();
         switch (selectedMenu) {
             case 1 : {
