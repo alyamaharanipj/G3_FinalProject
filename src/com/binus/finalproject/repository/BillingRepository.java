@@ -23,6 +23,9 @@ public class BillingRepository {
         return billing;
     }
 
+    public static void setVirtualAccount(UUID VA) {
+        getBill().setVirtualAccount(VA);
+    }
     public static UUID getVirtualAccount() {
         return getBill().getVirtualAccount();
     }

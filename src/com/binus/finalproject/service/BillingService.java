@@ -28,6 +28,8 @@ public class BillingService {
     }
 
     public static UUID generateVirtualAccount() {
+        UUID VA = UUID.randomUUID();
+        BillingRepository.setVirtualAccount(VA);
         return BillingRepository.getVirtualAccount();
     }
 }
