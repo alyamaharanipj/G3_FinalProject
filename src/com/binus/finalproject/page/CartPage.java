@@ -1,104 +1,57 @@
 package com.binus.finalproject.page;
-
-import com.binus.finalproject.model.Cart;
-import com.binus.finalproject.model.CartItem;
-import com.binus.finalproject.model.Customer;
-import com.binus.finalproject.model.Product;
-
+import com.binus.finalproject.service.CartService;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
-public class CartPage implements BasePage {
-    Cart cart = new Cart();
-    @Override
-    public void display() {
+public class CartPage {
 
-    }
+    private static final String PAGE_TITLE = "keranjang";
 
-    public void displayDetailCart(Cart cart) {
-        this.cart = cart;
-        displayBorder("-");
-        System.out.println("|\t\t\t\t\t\t\t\t\t\tDETAIL KERANJANG" + "\t\t\t\t\t\t\t\t\t\t\t\t|");
-        displayBorder("-");
-        displayBorder("-");
-        if (cart.getCartItems().size() == 0){
-            System.out.println("|\t\t\t\t\t\t\t\t\tBelum ada barang di keranjang" + "\t\t\t\t\t\t\t\t\t\t|");
-            displayBorder("-");
+    public static void display() {
+        displayTitle();
+        if (CartService.find().size() == 0){
+            displayMsgNotFound();
         } else {
-
-            System.out.println("|\tNO" + "\t|\t\t\t" + "NAMA BARANG" + "\t\t\t\t|\t\t" + "HARGA" + "\t\t|\t" + "KUANTITAS" + "\t|\t\t" + "SUBTOTAL" + "\t\t|");
-            displayBorder("-");
-            int i = 0;
-            for (CartItem cartItem : cart.getCartItems()) {
-                i++;
-                System.out.println(
-                        "|" + "\t" + i + "\t|\t\t" + cartItem.getProduct().getName()
-                                + calculateSpaceDisplay(cartItem.getProduct().getName(), 29) + "|" + "\tRp " + formatCurrency(cartItem.getProduct().getPrice() + "")
-                                + calculateSpaceDisplay(formatCurrency(cartItem.getProduct().getPrice() + ""), 14) + "|" + "\t" + cartItem.getQty()
-                                + calculateSpaceDisplay(cartItem.getQty() + "", 14) + "|\tRp " + formatCurrency(cartItem.getQty() * +cartItem.getProduct().getPrice() + "")
-                                + calculateSpaceDisplay(formatCurrency(cartItem.getQty() * +cartItem.getProduct().getPrice() + ""), 17) + "|");
-                displayBorder("-");
-            }
-        }
-    }
-    private String formatCurrency(String original) {
-        String afterFormatting = "";
-        int iterator = 1;
-        for (int i = original.length() - 3; i >= 0; i--) {
-            afterFormatting += original.toCharArray()[i];
-            if(iterator % 3 == 0 && iterator!= 0 && i != 0)
-                afterFormatting += ".";
-            iterator++;
+            displayListCartItem();
         }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(afterFormatting);
-        return builder.reverse().toString();
+        DisplayHelper.confirmDisplayMenu();
+        displayMenu();
+        int selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
+        nextDisplay(selectedMenu);
     }
 
-
-    private String calculateSpaceDisplay(String menu, int base) {
-        int countedTab = (int) Math.round((double)(base - menu.length()) / 4.0);
-        String tabPrinted = "";
-        for(int i = 0; i < countedTab; i++)
-            tabPrinted += "\t";
-        return tabPrinted;
+    private static void displayTitle() {
+        String title = PAGE_TITLE.toUpperCase();
+        DisplayHelper.displayHeader(title);
     }
 
+    private static void displayMsgNotFound() {
+        String title = "Belum ada barang di keranjang";
+        DisplayHelper.displayHeader(title);
+    }
 
-   /* private void displayBorder() {
-        final int QTY = 53;
-        for(int i = 0; i < QTY; i++)
-            System.out.print("* ");
-        System.out.println("");
-    } */
+    private static void displayListCartItem() {
+        DisplayHelper.displayTableCartItems();
+    }
 
-    public void displayContinuousMenuProductDetail() {
-        displayBorder("-");
-        System.out.println("|\t\t\t\t\t\t\t\t\t\t\tMENU KERANJANG\t\t\t\t\t\t\t\t\t\t\t\t|");
-        displayBorder("-");
+    private static void displayMenu() {
+        String title = "MENU " + PAGE_TITLE.toUpperCase();
+        DisplayHelper.displayHeader(title);
         List<String> menus = Arrays.asList(
                 "Pesan Sekarang",
                 "Kembali"
         );
-
-        for (int i = 0; i < menus.size(); i++) {
-            if (cart.getCartItems().size() == 0) i++;
-            System.out.println("|\t" + (i + 1) + "\t|\t" + menus.get(i) + displaySideBorder(menus.get(i)) + "|");
-            displayBorder("-");
-        }
+        DisplayHelper.displayMenu(menus);
     }
 
-    public void getInputMenuUser () {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Pilih salah satu menu di keranjang : ");
-        int selectedMenu = input.nextInt();
+    private static void nextDisplay (int selectedMenu) {
         switch (selectedMenu) {
             case 1 : {
-                CustomerPage customerPage = new CustomerPage();
-                customerPage.display(cart);
+                CustomerPage.display();
             }
+            case 2 :
+                HomePage.display(); break;
         }
     }
 

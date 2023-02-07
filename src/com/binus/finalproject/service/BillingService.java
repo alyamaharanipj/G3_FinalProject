@@ -1,21 +1,33 @@
 package com.binus.finalproject.service;
 
-import com.binus.finalproject.model.Cart;
-import com.binus.finalproject.model.CartItem;
-import com.binus.finalproject.model.Product;
+import com.binus.finalproject.model.*;
+import com.binus.finalproject.repository.BillingRepository;
+import com.binus.finalproject.repository.CartRepository;
+import com.binus.finalproject.repository.CustomerRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class BillingService {
-    public double getTotalPayment(Cart cart) {
+    public static double getTotalPayment(Cart cart) {
         double price = 0;
         for (CartItem cartItem : cart.getCartItems()) {
             price += cartItem.getQty() * cartItem.getProduct().getPrice();
         }
         return price;
+    }
+
+    public static void setData() {
+        Cart cart = CartRepository.getCart();
+        Customer customer = CustomerRepository.getCustomer();
+        BillingRepository.setData(cart, customer, getTotalPayment(cart));
+    }
+
+    public static Billing find() {
+        return BillingRepository.getBill();
+    }
+
+    public static UUID generateVirtualAccount() {
+        return BillingRepository.getVirtualAccount();
     }
 }

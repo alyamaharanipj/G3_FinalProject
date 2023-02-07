@@ -1,106 +1,72 @@
 package com.binus.finalproject.page;
-
-import com.binus.finalproject.model.Billing;
-import com.binus.finalproject.model.Cart;
 import com.binus.finalproject.model.CartItem;
+import com.binus.finalproject.model.Product;
+import com.binus.finalproject.service.BillingService;
+import com.binus.finalproject.service.CartService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class BillingPage implements BasePage {
+public class BillingPage {
+    private static final String PAGE_TITLE = "pembayaran";
 
-    Billing billing = new Billing();
-    @Override
-    public void display() {
-
+    public static void display() {
+        displayTitle();
+        displayDataCustomer();
+        displayListCartItem();
+        DisplayHelper.confirmDisplayMenu();
+        displayMenu();
+        int selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
+        nextDisplay(selectedMenu);
     }
 
-    public void displayBilling(Billing billing) {
-        this.billing = billing;
-        displayBorder("-");
-        System.out.println("|\t\t\t\t\t\t\t\t\t\t\t\tPEMBAYARAN\t\t\t\t\t\t\t\t\t\t\t\t|");
-        displayBorder("-");
-        System.out.println("Nama Customer\t\t:\t" + billing.getCustomer().getName());
-        System.out.println("Alamat Customer\t\t:\t" + billing.getCustomer().getAddress());
-        System.out.println("Total Pembayaran\t:\tRp " + formatCurrency(billing.getTotalPayment() + ""));
-        Cart cart = billing.getCart();
-        displayBorder("-");
-        System.out.println("|\tNO" + "\t|\t\t\t" + "NAMA BARANG" + "\t\t\t\t|\t\t" + "HARGA" + "\t\t|\t" + "KUANTITAS" + "\t|\t\t" + "SUBTOTAL"+ "\t\t|");
-        displayBorder("-");
-        int i = 0;
-        for (CartItem cartItem : cart.getCartItems()) {
-            i++;
-            System.out.println(
-                    "|" + "\t" + i + "\t|\t\t" + cartItem.getProduct().getName()
-                            + calculateSpaceDisplay(cartItem.getProduct().getName(), 29) + "|" + "\tRp " + formatCurrency(cartItem.getProduct().getPrice() + "")
-                            + calculateSpaceDisplay(formatCurrency(cartItem.getProduct().getPrice() + ""), 14) + "|" + "\t" + cartItem.getQty()
-                            + calculateSpaceDisplay(cartItem.getQty() + "", 14) + "|\tRp " + formatCurrency(cartItem.getQty() *  + cartItem.getProduct().getPrice() + "")
-                            + calculateSpaceDisplay(formatCurrency(cartItem.getQty() *  + cartItem.getProduct().getPrice() + ""), 17)  + "|");
-            displayBorder("-");
-        }
+    private static void displayTitle() {
+        String title = PAGE_TITLE.toUpperCase();
+        DisplayHelper.displayHeader(title);
     }
 
-    private String formatCurrency(String original) {
-        String afterFormatting = "";
-        int iterator = 1;
-        for (int i = original.length() - 3; i >= 0; i--) {
-            afterFormatting += original.toCharArray()[i];
-            if(iterator % 3 == 0 && iterator!= 0 && i != 0)
-                afterFormatting += ".";
-            iterator++;
-        }
-
-        StringBuilder builder = new StringBuilder();
-        builder.append(afterFormatting);
-        return builder.reverse().toString();
+    private static void displayDataCustomer() {
+        System.out.println("Nama Customer\t\t:\t" + BillingService.find().getCustomer().getName());
+        System.out.println("Alamat Customer\t\t:\t" + BillingService.find().getCustomer().getAddress());
+        System.out.println("Total Pembayaran\t:\tRp " + DisplayHelper.formatCurrency(BillingService.find().getTotalPayment() + ""));
     }
 
-    private String calculateSpaceDisplay(String menu, int base) {
-        int countedTab = (int) Math.round((double)(base - menu.length()) / 4.0);
-        String tabPrinted = "";
-        for(int i = 0; i < countedTab; i++)
-            tabPrinted += "\t";
-        return tabPrinted;
+    private static void displayListCartItem() {
+        DisplayHelper.displayTableCartItems();
     }
 
-    public void displayContinuousMenuProductDetail() {
-        displayBorder("-");
-        System.out.println("|\t\t\t\t\t\t\t\t\t\t\tMENU PEMBAYARAN\t\t\t\t\t\t\t\t\t\t\t\t|");
-        displayBorder("-");
+    private static void displayMenu() {
+        String title = "MENU " + PAGE_TITLE.toUpperCase();
+        DisplayHelper.displayHeader(title);
         List<String> menus = Arrays.asList(
                 "Konfirmasi Pembayaran",
                 "Kembali"
         );
-
-        for (int i = 0; i < menus.size(); i++) {
-            System.out.println("|\t" + (i + 1) + "\t|\t" + menus.get(i) + displaySideBorder(menus.get(i)) + "|");
-            displayBorder("-");
-        }
+        DisplayHelper.displayMenu(menus);
     }
 
-    public void getInputMenuUser () {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Pilih salah satu menu di pembayaran\t:  ");
-        int selectedMenu = input.nextInt();
+    public static void nextDisplay(int selectedMenu) {
         switch (selectedMenu) {
             case 1 : {
                 System.out.print("\nSilakan lakukan pembayaran ke nomor Virtual Account berikut: ");
-                System.out.println(billing.getVirtualAccount());
+                System.out.println(BillingService.generateVirtualAccount());
 
                 System.out.print("\nMasukkan y jika anda telah membayar? (y/n):  ");
+                Scanner input = new Scanner(System.in);
                 String confirmBill = input.next();
+
                 switch (confirmBill) {
                     case "y" : {
-                        MenuPage menuPage = new MenuPage();
                         System.out.print("\nSelamat, transaksi berhasil diproses.");
                         System.out.print("\nTunggu kurir datang ke rumah anda.");
-                        System.out.print("\nTerima kasih telah berbelanja di SPORT STORE GROUP 3 - DABA ya, " + billing.getCustomer().getName() + "!");
+                        System.out.print("\nTerima kasih telah berbelanja di SPORT STORE GROUP 3 - DABA ya, " + BillingService.find().getCustomer().getName() + "!");
 
                         System.out.print("Tekan ENTER untuk kembali ke menu utama");
                         input.nextLine();
                         input.nextLine();
-                        menuPage.display();
+                        HomePage.display();
                     }
                 }
             }

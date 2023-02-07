@@ -11,95 +11,60 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class ProductDetailPage implements BasePage {
-    ProductService productService = new ProductService();
-    CartService cartService = new CartService();
-    Product product = new Product();
-    @Override
-    public void display() {
+public class ProductDetailPage {
 
+    private static final String PAGE_TITLE = "detail produk";
+
+
+    public static void display(Product product) {
+        displayTitle();
+        displayBody(product);
+        DisplayHelper.confirmDisplayMenu();
+        displayMenu();
+        int selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
+        nextDisplay(selectedMenu, product);
     }
 
-    public void displayDetailProduct(Product product) {
-        this.product = product;
-        displayBorder("-");
-        System.out.println("|\t\t\t\t\t\t\t\t\t\t\tDETAIL PRODUK"+ "\t\t\t\t\t\t\t\t\t\t\t\t|");
-        displayBorder("-");
-
-        System.out.println("|\t" + "Nama Produk\t\t\t" + "|\t" + product.getName() + calculateSpaceDisplay(product.getName(), 78) + "|");
-        System.out.println("|\t" + "Kategori Produk\t\t" + "|\t" + product.getCategory() + calculateSpaceDisplay(product.getCategory(), 80) + "|");
-        System.out.println("|\t" + "Harga Produk\t\t" + "|\tRp " + formatCurrency(product.getPrice() + "") + calculateSpaceDisplay(formatCurrency(product.getPrice() + ""), 73) + "|");
-        System.out.println("|\t" + "Kuantitas Produk\t" + "|\t" + product.getQty() + " Produk Tersedia" + calculateSpaceDisplay(product.getQty() + " Produk Tersedia", 78) + "|");
-        displayBorder("-");
-    }
-    private String formatCurrency(String original) {
-        String afterFormatting = "";
-        int iterator = 1;
-        for (int i = original.length() - 3; i >= 0; i--) {
-            afterFormatting += original.toCharArray()[i];
-            if(iterator % 3 == 0 && iterator!= 0 && i != 0)
-                afterFormatting += ".";
-            iterator++;
-        }
-
-        StringBuilder builder = new StringBuilder();
-        builder.append(afterFormatting);
-        return builder.reverse().toString();
-    }
-    private String calculateSpaceDisplay(String menu, int base) {
-        int countedTab = (int) Math.round((double)(base - menu.length()) / 4.0);
-        String tabPrinted = "";
-        for(int i = 0; i < countedTab; i++)
-            tabPrinted += "\t";
-        return tabPrinted;
+    private static void displayTitle() {
+        String title = PAGE_TITLE.toUpperCase();
+        DisplayHelper.displayHeader(title);
     }
 
-    /*private void displayBorder() {
-        final int QTY = 53;
-        for(int i = 0; i < QTY; i++)
-            System.out.print("* ");
-        System.out.println("");
-    }*/
+    private static void displayBody(Product product) {
+        System.out.println("|\t" + "Nama Produk\t\t\t" + "|\t" + product.getName() + DisplayHelper.calculateSpaceDisplay(product.getName(), 78) + "|");
+        System.out.println("|\t" + "Kategori Produk\t\t" + "|\t" + product.getCategory() + DisplayHelper.calculateSpaceDisplay(product.getCategory(), 80) + "|");
+        System.out.println("|\t" + "Harga Produk\t\t" + "|\tRp " + DisplayHelper.formatCurrency(product.getPrice() + "") + DisplayHelper.calculateSpaceDisplay(DisplayHelper.formatCurrency(product.getPrice() + ""), 73) + "|");
+        System.out.println("|\t" + "Kuantitas Produk\t" + "|\t" + product.getQty() + " Produk Tersedia" + DisplayHelper.calculateSpaceDisplay(product.getQty() + " Produk Tersedia", 78) + "|");
+        DisplayHelper.displayBorder("-");
+    }
 
-    public void displayContinuousMenuProductDetail() {
-        displayBorder("-");
-        System.out.println("|\t\t\t\t\t\t\t\t\t\tMENU DETAIL PRODUK\t\t\t\t\t\t\t\t\t\t\t\t|");
-        displayBorder("-");
+    private static void displayMenu() {
+        String title = "MENU " + PAGE_TITLE.toUpperCase();
+        DisplayHelper.displayHeader(title);
         List<String> menus = Arrays.asList(
                 "Masukkan Keranjang",
                 "Beli Sekarang",
                 "Lihat Keranjang",
                 "Kembali"
         );
-
-        for (int i = 0; i < menus.size(); i++) {
-            System.out.println("|\t" + (i + 1) + "\t|\t" + menus.get(i) + displaySideBorder(menus.get(i)) + "|");
-            displayBorder("-");
-        }
+        DisplayHelper.displayMenu(menus);
     }
 
-    public void getInputMenuUser () {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Pilih salah satu menu detail produk\t: ");
-        int selectedMenu = input.nextInt();
-
-        CartPage cartPage = new CartPage();
+    public static void nextDisplay(int selectedMenu, Product product) {
         switch (selectedMenu) {
             case 1 : {
                 System.out.print("Masukkan jumlah produk\t\t\t\t: ");
+                Scanner input = new Scanner(System.in);
                 int qty = input.nextInt();
+
                 CartItem cartItem = new CartItem(product, qty);
-                cartService.addToCart(cartItem);
-                Cart cart = cartService.getCart();
-                cartPage.displayDetailCart(cart);
-                System.out.print("Tekan ENTER untuk melihat menu di detail produk");
-                input.nextLine();
-                input.nextLine();
-                cartPage.displayContinuousMenuProductDetail();
-                cartPage.getInputMenuUser();
+                CartService.addToCart(cartItem);
+
+                CartPage.display();
                 break;
             }
+            case 4 :
+                HomePage.display(); break;
         }
     }
-
 }

@@ -34,8 +34,4 @@ public class Cart {
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
-
-    public void addCartItems(CartItem cartItem) {
-        this.cartItems.add(cartItem);
-    }
 }

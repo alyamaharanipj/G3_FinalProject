@@ -16,7 +16,7 @@ public class CartItem {
     }
 
     public CartItem() {
-
+        this.setId(UUID.randomUUID());
     }
 
     public UUID getId() {
