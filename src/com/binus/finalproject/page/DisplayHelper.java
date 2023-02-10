@@ -13,25 +13,17 @@ public class DisplayHelper {
         System.out.println("");
     }
 
-    public static void displayHeader(String title) {
+    public static void displayHeader(String title, int rightSide, int leftSide) {
         displayBorder("-");
-        System.out.println("|" + displaySideBorder(title, 61) + title + displaySideBorder(title, 61) + "|");
+        System.out.println("|" + calculateSpaceDisplay(title, leftSide) + title + calculateSpaceDisplay(title, rightSide) + "|");
         displayBorder("-");
     }
 
     public static void displayMenu(List<String> menu) {
         for (int i = 0; i < menu.size(); i++) {
-            System.out.println("|\t" + (i + 1) + "\t|\t" + menu.get(i) + displaySideBorder(menu.get(i), 93) + "|");
+            System.out.println("|\t" + (i + 1) + "\t|\t" + menu.get(i) + calculateSpaceDisplay(menu.get(i), 93) + "|");
             displayBorder("-");
         }
-    }
-
-    public static String displaySideBorder(String menu, int allSize) {
-        int countedTab = (int) Math.round((double)(allSize - menu.length()) / 4.0);
-        String tabPrinted = "";
-        for(int i = 0; i < countedTab; i++)
-            tabPrinted += "\t";
-        return tabPrinted;
     }
 
     public static void displayTableProduct(List<Product> products) {
@@ -95,7 +87,6 @@ public class DisplayHelper {
     public static void confirmDisplayMenu(String title) {
         System.out.print("Tekan ENTER untuk melihat menu di " + title);
         Scanner input = new Scanner(System.in);
-        input.nextLine();
         input.nextLine();
     }
 

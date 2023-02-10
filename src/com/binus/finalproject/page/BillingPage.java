@@ -5,7 +5,6 @@ import com.binus.finalproject.service.BillingService;
 import com.binus.finalproject.service.CartService;
 import com.binus.finalproject.service.ProductService;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -25,11 +24,12 @@ public class BillingPage {
 
     private static void displayTitle() {
         String title = PAGE_TITLE.toUpperCase();
-        DisplayHelper.displayHeader(title);
+        DisplayHelper.displayHeader(title, 64, 64);
     }
 
     private static void displayDataCustomer() {
         System.out.println("Nama Customer\t\t:\t" + BillingService.find().getCustomer().getName());
+        System.out.println("Nomor HP Customer\t\t:\t" + BillingService.find().getCustomer().getPhoneNumber());
         System.out.println("Alamat Customer\t\t:\t" + BillingService.find().getCustomer().getAddress());
         System.out.println("Total Pembayaran\t:\tRp " + DisplayHelper.formatCurrency(BillingService.find().getTotalPayment() + ""));
     }
@@ -40,7 +40,7 @@ public class BillingPage {
 
     private static void displayMenu() {
         String title = "MENU " + PAGE_TITLE.toUpperCase();
-        DisplayHelper.displayHeader(title);
+        DisplayHelper.displayHeader(title, 60, 60);
         List<String> menus = Arrays.asList(
                 "Konfirmasi Pembayaran",
                 "Kembali"
@@ -62,9 +62,9 @@ public class BillingPage {
                     case "y" : {
                         ProductService.updateQty();
                         CartService.clearCart();
-                        System.out.println("\nSelamat, transaksi berhasil.");
-                        System.out.println("\nPesanan akan segera diproses");
-                        System.out.println("\nTerima kasih telah berbelanja di SPORT STORE GROUP 3 - DABA ya, " + BillingService.find().getCustomer().getName() + "!\n");
+                        System.out.println("Selamat, transaksi berhasil.");
+                        System.out.println("Pesanan akan segera diproses");
+                        System.out.println("Terima kasih telah berbelanja di SPORT STORE GROUP 3 - DABA ya, " + BillingService.find().getCustomer().getName() + "!\n");
 
                         System.out.println("\nTekan ENTER untuk kembali ke menu utama");
                         input.nextLine();

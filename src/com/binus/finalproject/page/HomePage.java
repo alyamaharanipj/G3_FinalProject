@@ -20,7 +20,7 @@ public class HomePage {
 
     private static void displayTitle() {
         String title = "SELAMAT DATANG DI SPORT STORE GROUP 3 - DABA";
-        DisplayHelper.displayHeader(title);
+        DisplayHelper.displayHeader(title, 75, 71);
     }
 
     private static void displayMenu() {

@@ -16,16 +16,18 @@ public class CustomerPage {
 
     private static void displayTitle() {
         String title = PAGE_TITLE.toUpperCase();
-        DisplayHelper.displayHeader(title);
+        DisplayHelper.displayHeader(title, 64, 64);
     }
 
     private static void saveCustomerData() {
         Scanner input = new Scanner(System.in);
-        System.out.print("Masukkan nama anda\t\t:\t");
+        System.out.print("Masukkan nama anda\t\t\t\t:\t");
         String username = input.nextLine();
-        System.out.print("Masukkan alamat anda\t:\t");
+        System.out.print("Masukkan nomor handphone anda\t:\t");
+        String phoneNumber = input.nextLine();
+        System.out.print("Masukkan alamat anda\t\t\t:\t");
         String address = input.nextLine();
-        CustomerService.setData(username, address);
+        CustomerService.setData(username, phoneNumber, address);
     }
 
     private static void nextDisplay () {

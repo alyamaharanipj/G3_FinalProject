@@ -1,9 +1,9 @@
 package com.binus.finalproject.service;
-import com.binus.finalproject.model.Cart;
 import com.binus.finalproject.model.CartItem;
 import com.binus.finalproject.model.Product;
 import com.binus.finalproject.repository.CartRepository;
 import com.binus.finalproject.repository.ProductRepository;
+
 import java.util.*;
 
     public class ProductService {
@@ -13,40 +13,21 @@ import java.util.*;
         private static final int MIN_QTY = 12;
 
         public static void initProduct() {
-            List<String> productsName = Arrays.asList(
-                    "Lampu Sepeda LED Light",
-                    "Knee Support Brace",
-                    "Adjustable Hand Grip",
-                    "Tennis Racket",
-                    "Kettler Speed Jump",
-                    "Skipping Rope",
-                    "Treadmill Manual",
-                    "Yoga Matras",
-                    "Shuttlecock",
-                    "Gymball"
-            );
-            List<String> productsCategory = Arrays.asList(
-                    "Biking",
-                    "Running",
-                    "Tennis",
-                    "Tennis",
-                    "Jumping",
-                    "Jumping",
-                    "Gym",
-                    "Yoga",
-                    "Badminton",
-                    "Gym"
-            );
-            List<String> productsBrand = Arrays.asList(
-                    "ADIDAS", "NIKE", "REEBOK", "SKECHERS", "DIADORA"
-            );
+            String[] productsName = {
+                    "Lampu Sepeda LED Light","Knee Support Brace","Adjustable Hand Grip",
+                    "Tennis Racket","Kettler Speed Jump","Skipping Rope","Treadmill Manual",
+                    "Yoga Matras","Shuttlecock","Gymball" } ;
+            String[] productsCategory = { "Biking","Running","Tennis","Tennis",
+                    "Jumping","Jumping","Gym","Yoga","Badminton","Gym"};
+            String[] productsBrand = {"ADIDAS", "NIKE", "REEBOK", "SKECHERS", "DIADORA"};
             int i = 0;
             for (String productName : productsName) {
                 float generatedPrice = getPrice();
                 int generatedQty = getQty();
                 String generatedBrand = getBrand(productsBrand);
                 // Instansiasi produk
-                Product product = new Product(productName, productsCategory.get(i), generatedBrand, generatedPrice, generatedQty);
+                Product product = new Product(productName, productsCategory[i], generatedBrand,
+                        generatedPrice, generatedQty);
                 addProduct(product);
                 i++;
             }
@@ -58,9 +39,9 @@ import java.util.*;
             return (int) Math.floor(Math.random() * (MAX_QTY - MIN_QTY + 1) + MIN_QTY);
         }
 
-        public static String getBrand(List<String> productsBrand) {
+        public static String getBrand(String[] productsBrand) {
             Random rand = new Random();
-            return productsBrand.get(rand.nextInt(productsBrand.size()));
+            return productsBrand[rand.nextInt(productsBrand.length)];
         }
 
         public static void addProduct(Product product) { ProductRepository.add(product); }

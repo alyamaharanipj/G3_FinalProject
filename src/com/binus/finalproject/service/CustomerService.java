@@ -17,8 +17,8 @@ public class CustomerService {
         return CartRepository.getCartItems();
     }
 
-    public static void setData(String name, String address) {
-        Customer customer = new Customer(name, address);
+    public static void setData(String name, String phoneNumber, String address) {
+        Customer customer = new Customer(name, phoneNumber, address);
         CustomerRepository.setData(customer);
     }
 }

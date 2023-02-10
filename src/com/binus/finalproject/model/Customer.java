@@ -8,15 +8,15 @@ public class Customer {
     private String phoneNumber;
     private String address;
 
-    // Product constructor
-    public Customer(String name, String address) {
+    public Customer(String name, String phoneNumber, String address) {
         this.setId(UUID.randomUUID());
         this.setName(name);
+        this.setPhoneNumber((phoneNumber));
         this.setAddress(address);
     }
 
     public Customer() {
-
+        this.setId(UUID.randomUUID());
     }
 
     public UUID getId() {

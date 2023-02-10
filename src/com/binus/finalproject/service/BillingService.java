@@ -7,7 +7,6 @@ import com.binus.finalproject.repository.CustomerRepository;
 
 import java.util.*;
 
-
 public class BillingService {
     public static double getTotalPayment(Cart cart) {
         double price = 0;

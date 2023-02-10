@@ -40,12 +40,12 @@ public class ProductPage {
     }
 
     private static void displayTitleCatalogProduct() {
-        DisplayHelper.displayHeader(PAGE_TITLE.toUpperCase());
+        DisplayHelper.displayHeader(PAGE_TITLE.toUpperCase(), 60, 59);
     }
 
     private static void displayTitleSearchProductBy(String param) {
         String title = "CARI PRODUK BERDASARKAN " + param.toUpperCase();
-        DisplayHelper.displayHeader(title);
+        DisplayHelper.displayHeader(title, 64, 68);
     }
 
     private static List<Product> displayAllProduct() {
@@ -85,12 +85,12 @@ public class ProductPage {
 
     private static void displayMsgNotFound() {
         String title = "Produk yang anda cari tidak ditemukan";
-        DisplayHelper.displayHeader(title);
+        DisplayHelper.displayHeader(title, 50, 50);
     }
 
     private static void displayMenu(int size) {
         String title = "MENU " + PAGE_TITLE.toUpperCase();
-        DisplayHelper.displayHeader(title);
+        DisplayHelper.displayHeader(title, 64, 64);
         List<String> menus = new ArrayList<>(Arrays.asList(
                 "Lihat detail produk",
                 "Masukkan keranjang",
@@ -179,10 +179,10 @@ public class ProductPage {
             case 2 :
                 System.exit(0);
             default: {
+                System.out.println("Masukkan nomor menu dengan benar!");
                 selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
                 nextDisplay(selectedMenu, products);
             }
-
         }
     }
 }

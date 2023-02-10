@@ -28,12 +28,12 @@ public class CartPage {
 
     private static void displayTitle() {
         String title = PAGE_TITLE.toUpperCase();
-        DisplayHelper.displayHeader(title);
+        DisplayHelper.displayHeader(title, 56, 56);
     }
 
     private static void displayMsgNotFound() {
         String title = "Belum ada barang di keranjang";
-        DisplayHelper.displayHeader(title);
+        DisplayHelper.displayHeader(title, 64, 68);
     }
 
     private static void displayListCartItem() {
@@ -42,7 +42,7 @@ public class CartPage {
 
     private static void displayMenu() {
         String title = "MENU " + PAGE_TITLE.toUpperCase();
-        DisplayHelper.displayHeader(title);
+        DisplayHelper.displayHeader(title, 60, 56);
         List<String> menus = new ArrayList<>(Arrays.asList(
                 "Pesan Sekarang",
                 "Kembali",
