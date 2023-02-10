@@ -8,7 +8,6 @@ public class Cart {
     private UUID id;
     private List<CartItem> cartItems;
 
-    // Product constructor
     public Cart(List<CartItem> cartItems) {
         this.setId(UUID.randomUUID());
         this.setCartItems(cartItems);

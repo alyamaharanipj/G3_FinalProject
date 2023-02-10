@@ -36,6 +36,10 @@ public class CustomerPage {
             case "y" : {
                 BillingService.setData();
                 BillingPage.display();
+            } break;
+            case "n" : {
+                saveCustomerData();
+                nextDisplay();
             }
         }
     }

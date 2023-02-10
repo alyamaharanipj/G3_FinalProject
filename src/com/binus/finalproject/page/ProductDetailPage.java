@@ -15,11 +15,10 @@ public class ProductDetailPage {
 
     private static final String PAGE_TITLE = "detail produk";
 
-
     public static void display(Product product) {
         displayTitle();
         displayBody(product);
-        DisplayHelper.confirmDisplayMenu();
+        DisplayHelper.confirmDisplayMenu(PAGE_TITLE);
         displayMenu();
         int selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
         nextDisplay(selectedMenu, product);
@@ -33,6 +32,7 @@ public class ProductDetailPage {
     private static void displayBody(Product product) {
         System.out.println("|\t" + "Nama Produk\t\t\t" + "|\t" + product.getName() + DisplayHelper.calculateSpaceDisplay(product.getName(), 78) + "|");
         System.out.println("|\t" + "Kategori Produk\t\t" + "|\t" + product.getCategory() + DisplayHelper.calculateSpaceDisplay(product.getCategory(), 80) + "|");
+        System.out.println("|\t" + "Brand\t\t\t\t" + "|\t" + product.getBrand() + DisplayHelper.calculateSpaceDisplay(product.getBrand(), 80) + "|");
         System.out.println("|\t" + "Harga Produk\t\t" + "|\tRp " + DisplayHelper.formatCurrency(product.getPrice() + "") + DisplayHelper.calculateSpaceDisplay(DisplayHelper.formatCurrency(product.getPrice() + ""), 73) + "|");
         System.out.println("|\t" + "Kuantitas Produk\t" + "|\t" + product.getQty() + " Produk Tersedia" + DisplayHelper.calculateSpaceDisplay(product.getQty() + " Produk Tersedia", 78) + "|");
         DisplayHelper.displayBorder("-");
@@ -43,9 +43,9 @@ public class ProductDetailPage {
         DisplayHelper.displayHeader(title);
         List<String> menus = Arrays.asList(
                 "Masukkan Keranjang",
-                "Beli Sekarang",
                 "Lihat Keranjang",
-                "Kembali"
+                "Kembali",
+                "Keluar"
         );
         DisplayHelper.displayMenu(menus);
     }
@@ -63,8 +63,18 @@ public class ProductDetailPage {
                 CartPage.display();
                 break;
             }
-            case 4 :
+            case 2 : {
+                CartPage.display();
+                break;
+            }
+            case 3 :
                 HomePage.display(); break;
+            case 4 :
+                System.exit(0);
+            default: {
+                selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
+                nextDisplay(selectedMenu, product);
+            }
         }
     }
 }

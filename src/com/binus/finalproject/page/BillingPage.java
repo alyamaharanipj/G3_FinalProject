@@ -3,6 +3,7 @@ import com.binus.finalproject.model.CartItem;
 import com.binus.finalproject.model.Product;
 import com.binus.finalproject.service.BillingService;
 import com.binus.finalproject.service.CartService;
+import com.binus.finalproject.service.ProductService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,7 @@ public class BillingPage {
         displayTitle();
         displayDataCustomer();
         displayListCartItem();
-        DisplayHelper.confirmDisplayMenu();
+        DisplayHelper.confirmDisplayMenu(PAGE_TITLE);
         displayMenu();
         int selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
         nextDisplay(selectedMenu);
@@ -59,14 +60,20 @@ public class BillingPage {
 
                 switch (confirmBill) {
                     case "y" : {
-                        System.out.print("\nSelamat, transaksi berhasil diproses.");
-                        System.out.print("\nTunggu kurir datang ke rumah anda.");
-                        System.out.print("\nTerima kasih telah berbelanja di SPORT STORE GROUP 3 - DABA ya, " + BillingService.find().getCustomer().getName() + "!");
+                        ProductService.updateQty();
+                        CartService.clearCart();
+                        System.out.println("\nSelamat, transaksi berhasil.");
+                        System.out.println("\nPesanan akan segera diproses");
+                        System.out.println("\nTerima kasih telah berbelanja di SPORT STORE GROUP 3 - DABA ya, " + BillingService.find().getCustomer().getName() + "!\n");
 
-                        System.out.print("Tekan ENTER untuk kembali ke menu utama");
+                        System.out.println("\nTekan ENTER untuk kembali ke menu utama");
                         input.nextLine();
                         input.nextLine();
                         HomePage.display();
+                    }
+                    case "n" : {
+                        System.out.print("\nSEGERA LAKUKAN PEMBAYARAN!");
+                        nextDisplay(1);
                     }
                 }
             }

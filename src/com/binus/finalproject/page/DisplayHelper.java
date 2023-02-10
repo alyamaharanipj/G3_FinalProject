@@ -1,12 +1,7 @@
 package com.binus.finalproject.page;
-
-import com.binus.finalproject.model.Cart;
 import com.binus.finalproject.model.CartItem;
 import com.binus.finalproject.model.Product;
 import com.binus.finalproject.service.CartService;
-import com.binus.finalproject.service.ProductService;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -97,8 +92,8 @@ public class DisplayHelper {
         return tabPrinted;
     }
 
-    public static void confirmDisplayMenu() {
-        System.out.print("Tekan ENTER untuk melihat menu di detail produk");
+    public static void confirmDisplayMenu(String title) {
+        System.out.print("Tekan ENTER untuk melihat menu di " + title);
         Scanner input = new Scanner(System.in);
         input.nextLine();
         input.nextLine();

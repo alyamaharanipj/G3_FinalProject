@@ -36,6 +36,23 @@ public class CartRepository {
         getCart().getCartItems().get(index).addQty(qty);
     }
 
+    public static int getCartQty(int index) {
+        return getCart().getCartItems().get(index).getQty();
+    }
+
+//    public static CartItem getCartItemById(UUID id) {
+//        return getCart().getCartItems().stream().filter(cart -> cart.getId().equals(id)).collect(Collectors.toList()).get(0);
+//    }
+
+    public static UUID getCartItemId(UUID productId) {
+        int i = 0;
+        for (CartItem cartItem: CartRepository.getCartItems()) {
+            if(cartItem.getProduct().getId().equals(productId)){
+                return cartItem.getId();
+            } i++;
+        } return new UUID(0,0);
+    }
+
     public static int getCartItemIndex(UUID id) {
         int i = 0;
         for (CartItem cartItem: CartRepository.getCartItems()) {
@@ -47,5 +64,9 @@ public class CartRepository {
 
     public static void deleteCartItem(CartItem cartItem) {
         getCart().getCartItems().remove(cartItem);
+    }
+
+    public static void clearCart() {
+        cart = new Cart();
     }
 }

@@ -1,5 +1,7 @@
 package com.binus.finalproject.page;
 import com.binus.finalproject.service.CartService;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,16 +11,19 @@ public class CartPage {
 
     public static void display() {
         displayTitle();
-        if (CartService.find().size() == 0){
+        if (CartService.find().size() == 0) {
             displayMsgNotFound();
         } else {
             displayListCartItem();
         }
-
-        DisplayHelper.confirmDisplayMenu();
+        DisplayHelper.confirmDisplayMenu(PAGE_TITLE);
         displayMenu();
         int selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
-        nextDisplay(selectedMenu);
+        if (CartService.find().size() == 0) {
+            nextDisplayEmptyCart(selectedMenu);
+        } else {
+            nextDisplay(selectedMenu);
+        }
     }
 
     private static void displayTitle() {
@@ -38,21 +43,40 @@ public class CartPage {
     private static void displayMenu() {
         String title = "MENU " + PAGE_TITLE.toUpperCase();
         DisplayHelper.displayHeader(title);
-        List<String> menus = Arrays.asList(
+        List<String> menus = new ArrayList<>(Arrays.asList(
                 "Pesan Sekarang",
-                "Kembali"
-        );
+                "Kembali",
+                "Keluar"
+        ));
+        if (CartService.find().size() == 0) menus.remove(0);
         DisplayHelper.displayMenu(menus);
     }
 
     private static void nextDisplay (int selectedMenu) {
         switch (selectedMenu) {
-            case 1 : {
-                CustomerPage.display();
-            }
+            case 1 :
+                CustomerPage.display(); break;
             case 2 :
                 HomePage.display(); break;
+            case 3 :
+                System.exit(0);
+            default: {
+                selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
+                nextDisplay(selectedMenu);
+            } break;
         }
     }
 
+    private static void nextDisplayEmptyCart (int selectedMenu) {
+        switch (selectedMenu) {
+            case 1 :
+                HomePage.display(); break;
+            case 2 :
+                System.exit(0);
+            default: {
+                selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
+                nextDisplayEmptyCart(selectedMenu);
+            } break;
+        }
+    }
 }

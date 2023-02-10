@@ -29,13 +29,14 @@ public class HomePage {
             "Cari Produk Berdasarkan Nama Produk",
             "Cari Produk Berdasarkan Kategori",
             "Cari Produk Berdasarkan Brand",
-            "Lihat Keranjang"
+            "Lihat Keranjang",
+            "Keluar"
         );
         DisplayHelper.displayMenu(menus);
     }
 
     private static void nextDisplay (int selectedMenu) {
-        switch (selectedMenu){
+        switch (selectedMenu) {
             case 1 : {
                 ProductPage.displayCatalogProduct();
                 break;
@@ -59,6 +60,12 @@ public class HomePage {
                 CartPage.display();
                 break;
             }
+            case 6 :
+                System.exit(0);
+            default: {
+                selectedMenu = DisplayHelper.getMenuReq(PAGE_TITLE);
+                nextDisplay(selectedMenu);
+            } break;
         }
     }
 }
